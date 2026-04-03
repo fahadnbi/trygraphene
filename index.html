@@ -1,12 +1,154 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Graphene Security</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Graphene Security | System Understanding for Enterprise AI Code</title>
+  <meta name="description" content="Graphene maps what a change will touch before it ships—so VP Engineering teams can deploy safely as AI agents accelerate software delivery." />
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0b1220;
+      --muted: #4b5563;
+      --accent: #2563eb;
+      --border: #e5e7eb;
+      --shadow: rgba(0, 0, 0, 0.06);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji",
+        "Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.35;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 40px 20px 60px; }
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 14px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .tagline { color: var(--muted); margin: 0 0 22px; font-size: 14px; }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 38px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    .sub {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 62ch;
+    }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 18px;
+      box-shadow: 0 8px 24px var(--shadow);
+      background: #fff;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 32px; }
+    }
+    h2 {
+      font-size: 16px;
+      margin: 0 0 8px;
+      letter-spacing: -0.01em;
+    }
+    ul { margin: 0; padding-left: 18px; color: var(--muted); }
+    li { margin: 8px 0; }
+    .cta {
+      display: grid;
+      gap: 10px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .fine { margin: 0; color: var(--muted); font-size: 13px; }
+    .separator {
+      height: 1px;
+      background: var(--border);
+      margin: 26px 0 18px;
+    }
+    .small {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Graphene Security</h1>
-  <p>Temporary landing page for ad testing.</p>
+  <div class="wrap">
+    <div class="brand">Graphene</div>
+    <p class="tagline">Continuously across learning hardware and intelligence software.</p>
+
+    <div class="grid">
+      <div>
+        <h1>System understanding for safe production changes.</h1>
+        <p class="sub">
+          As AI agents accelerate code changes, the risk shifts from “writing code” to “knowing what it will touch.”
+          Graphene maps change impact before it ships—so VP Engineering teams can move fast without downstream surprises.
+        </p>
+
+        <div class="card">
+          <h2>What Graphene does</h2>
+          <ul>
+            <li>Builds a dependency & change-impact map across services, data, and security boundaries.</li>
+            <li>Produces pre-merge review artifacts engineers can trust (blast radius, affected consumers, risk).</li>
+            <li>Helps permissioning & governance stay in control as teams ship via EaaS.</li>
+          </ul>
+        </div>
+
+        <div class="separator"></div>
+
+        <h2>Signal from the past day</h2>
+        <p class="small">
+          A design-partner conversation is turning into a pilot: an EaaS team is validating Graphene as the missing
+          “system understanding layer” for safe production change.
+        </p>
+        <div class="pill">Built for enterprise change management</div>
+      </div>
+
+      <div class="cta card">
+        <h2>For VP Engineering</h2>
+        <p class="small" style="margin-bottom: 10px;">
+          Want a fast, low-lift evaluation of how Graphene would cover your hardest downstream risks?
+        </p>
+        <a class="btn" href="mailto:hello@graphene-security.com?subject=Graphene%20pilot%20request">Request a pilot</a>
+        <p class="fine">Reply with your org size + one “near-miss” incident. We’ll suggest a concrete test.</p>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
