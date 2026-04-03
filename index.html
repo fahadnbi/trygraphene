@@ -1,198 +1,255 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Graphene | System Understanding for EaaS</title>
-  <meta name="description" content="Graphene makes enterprise AI change safe: dependency + impact mapping, pre-merge review artifacts, and governance for every production change." />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[graphene] — Ship to Production with Confidence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <style>
-    :root{
-      --bg:#0b1220;
-      --card: rgba(255,255,255,0.04);
-      --fg:#eaf0ff;
-      --muted: rgba(234,240,255,0.74);
-      --accent:#2563eb;
-      --border: rgba(255,255,255,0.14);
-      --shadow: rgba(0,0,0,0.35);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: var(--bg);
-      color: var(--fg);
-      line-height:1.35;
-    }
-    .wrap{max-width:1060px;margin:0 auto;padding:26px 18px 64px}
-    header{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px
-    }
-    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:13px}
-    .mark{
-      width:34px;height:34px;border-radius:12px;
-      background: radial-gradient(120% 120% at 20% 20%, rgba(37,99,235,1) 0%, rgba(37,99,235,.35) 46%, rgba(37,99,235,0) 72%),
-        rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.16);
-      box-shadow: 0 14px 34px var(--shadow);
-    }
-    .link{
-      color: var(--muted);
-      text-decoration:none;
-      font-size:13px;
-      border:1px solid transparent;
-      padding:10px 12px;border-radius:10px;
-    }
-    .link:hover{border-color: var(--border);color:var(--fg)}
+:root {
+  --bg:            #edeae2;
+  --text:          #2c2c2a;
+  --muted:         #888780;
+  --accent:        #b8c94a;
+  --border:        rgba(44,44,42,0.1);
+  --border-strong: rgba(44,44,42,0.18);
+}
 
-    .hero{
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:22px;
-      background:
-        radial-gradient(920px 280px at 10% 0%, rgba(37,99,235,0.30), rgba(37,99,235,0) 65%),
-        rgba(255,255,255,0.04);
-      box-shadow: 0 20px 54px var(--shadow);
-    }
-    .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;align-items:start}
-    @media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
+html { scroll-behavior: smooth; }
 
-    .kicker{
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      font-size:11px;
-      color: var(--muted);
-      margin-bottom:10px;
-    }
-    h1{
-      margin:0 0 10px;
-      font-size:40px;line-height:1.04;letter-spacing:-0.03em;
-    }
-    .sub{margin:0;color:var(--muted);font-size:15px;max-width:62ch}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
 
-    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
-    @media (max-width:900px){.cards{grid-template-columns:1fr}}
-    .card{
-      padding:14px;
-      border-radius:14px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,0.02);
-      min-height: 112px;
-    }
-    .icon{
-      width:38px;height:38px;border-radius:12px;
-      display:inline-flex;align-items:center;justify-content:center;
-      border:1px solid rgba(255,255,255,0.18);
-      background: rgba(37,99,235,0.18);
-      font-weight:800;color:#cfe1ff;
-      margin-bottom:10px;
-    }
-    .card h2{margin:0 0 6px;font-size:14px;letter-spacing:-0.01em}
-    .card p{margin:0;color:var(--muted);font-size:13px}
+/* hex texture */
+.hex-bg {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0; opacity: 0.15;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 0 L56 16 L56 50 L28 66 L0 50 L0 16Z' fill='none' stroke='%232c2c2a' stroke-width='0.5'/%3E%3Cpath d='M28 66 L56 50 L56 84 L28 100 L0 84 L0 50Z' fill='none' stroke='%232c2c2a' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-size: 56px 100px;
+}
 
-    .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .chip{
-      padding:7px 10px;border-radius:999px;
-      border:1px solid var(--border);
-      color:var(--muted);
-      font-size:12px;
-    }
+/* nav */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.25rem 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(237,234,226,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 400; color: var(--text); }
+.logo-bracket { color: var(--muted); }
+.nav-cta {
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--bg); background: var(--text); border: none;
+  padding: 0.6rem 1.4rem; cursor: pointer; transition: opacity 0.2s;
+  text-decoration: none; display: inline-block;
+}
+.nav-cta:hover { opacity: 0.75; }
 
-    .panel{
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:16px;
-      background: rgba(255,255,255,0.03);
-    }
-    .proof{display:grid;gap:10px}
-    .proof .big{margin:0;font-weight:800;letter-spacing:-0.02em;font-size:16px}
-    .proof .small{margin:0;color:var(--muted);font-size:13px}
-    .hr{height:1px;background:var(--border);margin:14px 0}
+/* hero */
+main { position: relative; z-index: 1; }
 
-    .cta{display:grid;gap:10px}
-    .cta h2{margin:0;font-size:16px;letter-spacing:-0.02em}
-    .fine{margin:0;color:var(--muted);font-size:12px}
-    .btn{
-      display:inline-flex;
-      align-items:center;justify-content:center;
-      width:100%;
-      padding:12px 14px;
-      border-radius:12px;
-      background: var(--accent);
-      color:#fff;text-decoration:none;font-weight:900;
-      box-shadow: 0 16px 34px rgba(37,99,235,0.28);
-    }
-    .btn:active{transform:translateY(1px)}
-  </style>
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center;
+  padding: 9rem 2.5rem 5rem;
+  max-width: 960px; margin: 0 auto;
+}
+.eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 2.5rem;
+  opacity: 0; animation: fadeUp 0.5s ease forwards 0.1s;
+}
+h1 {
+  font-size: clamp(2.2rem, 5.5vw, 4rem); font-weight: 300;
+  line-height: 1.1; letter-spacing: -0.025em; max-width: 780px;
+  margin-bottom: 2rem; color: var(--text);
+  opacity: 0; animation: fadeUp 0.5s ease forwards 0.2s;
+}
+h1 strong { font-weight: 500; }
+.hero-sub {
+  font-size: 1rem; color: var(--muted); font-weight: 300;
+  max-width: 560px; line-height: 1.8; margin-bottom: 2rem;
+  opacity: 0; animation: fadeUp 0.5s ease forwards 0.3s;
+}
+.hero-incident {
+  border-left: 2px solid var(--accent);
+  padding: 1.25rem 1.75rem; margin-bottom: 2.75rem;
+  background: rgba(44,44,42,0.04);
+  max-width: 560px;
+  opacity: 0; animation: fadeUp 0.5s ease forwards 0.35s;
+}
+.incident-label {
+  font-family: 'DM Mono', monospace; font-size: 9.5px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 0.7rem;
+}
+.incident-text {
+  font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.7;
+}
+.incident-resolution {
+  font-size: 14px; font-weight: 400; color: var(--text); line-height: 1.7;
+  margin-top: 0.85rem; border-top: 1px solid var(--border); padding-top: 0.85rem;
+}
+.hero-actions {
+  display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.5s ease forwards 0.45s;
+}
+.btn-primary {
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 400;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--bg); background: var(--text); border: none;
+  padding: 0.9rem 2rem; cursor: pointer; transition: opacity 0.2s;
+  text-decoration: none; display: inline-block;
+}
+.btn-primary:hover { opacity: 0.75; }
+
+.divider { border: none; border-top: 1px solid var(--border); }
+
+/* CTA — dark inverted section */
+.cta-section {
+  background: var(--text);
+  padding: 7rem 2.5rem;
+  text-align: center;
+}
+.cta-label {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(237,234,226,0.35); margin-bottom: 2rem;
+}
+.cta-section h2 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 300;
+  letter-spacing: -0.02em; line-height: 1.2;
+  color: #edeae2; margin-bottom: 1.25rem;
+  max-width: 540px; margin-left: auto; margin-right: auto;
+}
+.cta-section > p {
+  font-size: 0.95rem; color: rgba(237,234,226,0.45);
+  font-weight: 300; line-height: 1.75;
+  max-width: 420px; margin: 0 auto 2.5rem;
+}
+.email-form-full {
+  display: flex; flex-direction: column;
+  max-width: 420px; margin: 0 auto;
+}
+.email-input {
+  background: rgba(237,234,226,0.07);
+  border: 1px solid rgba(237,234,226,0.15);
+  border-bottom: none;
+  color: #edeae2; padding: 0.9rem 1.25rem;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+  outline: none; transition: border-color 0.2s; width: 100%;
+}
+.email-input:last-of-type {
+  border-bottom: 1px solid rgba(237,234,226,0.15);
+}
+.email-input::placeholder { color: rgba(237,234,226,0.3); }
+.email-input:focus { border-color: var(--accent); }
+.email-submit-full {
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text); background: var(--accent);
+  border: none; padding: 1rem 1.5rem;
+  cursor: pointer; width: 100%; transition: opacity 0.2s;
+  margin-top: 0.75rem;
+}
+.email-submit-full:hover { opacity: 0.85; }
+.form-note {
+  margin-top: 0.75rem; font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(237,234,226,0.25);
+}
+
+/* footer */
+footer {
+  background: var(--text);
+  border-top: 1px solid rgba(237,234,226,0.08);
+  padding: 1.5rem 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; z-index: 1;
+}
+.footer-logo { font-family: 'DM Mono', monospace; font-size: 13px; color: rgba(237,234,226,0.5); }
+.footer-note { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: rgba(237,234,226,0.25); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.25rem; }
+  .hero { padding: 7rem 1.25rem 4rem; }
+  .cta-section { padding: 5rem 1.25rem; }
+  footer { flex-direction: column; gap: 0.75rem; text-align: center; }
+}
+</style>
 </head>
-
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="mark" aria-hidden="true"></div>
-        Graphene
-      </div>
-      <div class="top-actions">
-        <a class="link" href="mailto:hello@graphene-security.com?subject=Graphene%20pilot%20request">hello@graphene-security.com</a>
-      </div>
-    </header>
 
-    <section class="hero">
-      <div class="hero-grid">
-        <div>
-          <div class="kicker">The system understanding layer for EaaS</div>
-          <h1>Safe production change as AI agents scale.</h1>
-          <p class="sub">
-            Agents can write code faster. Engineering risk shifts to what the change will touch—dependencies, downstream consumers, and security boundaries.
-            Graphene answers that before anything ships.
-          </p>
+<div class="hex-bg"></div>
 
-          <div class="cards" role="list">
-            <div class="card" role="listitem">
-              <div class="icon" aria-hidden="true">↔</div>
-              <h2>Change-impact mapping</h2>
-              <p>Dependency graph across services, data, and integrations.</p>
-            </div>
-            <div class="card" role="listitem">
-              <div class="icon" aria-hidden="true">✓</div>
-              <h2>Pre-merge review</h2>
-              <p>Blast radius + affected consumers before approval.</p>
-            </div>
-            <div class="card" role="listitem">
-              <div class="icon" aria-hidden="true">🔒</div>
-              <h2>Governed velocity</h2>
-              <p>Audit-ready context so teams can ship with confidence.</p>
-            </div>
-          </div>
+<nav>
+  <span class="logo"><span class="logo-bracket">[</span>graphene<span class="logo-bracket">]</span></span>
+  <a href="#early-access" class="nav-cta">Request access</a>
+</nav>
 
-          <div class="chips" aria-label="Brand line">
-            <div class="chip">CONTINUOUSLY ACROSS LEARNING HARDWARE</div>
-            <div class="chip">AND INTELLIGENCE SOFTWARE</div>
-          </div>
-        </div>
+<main>
+  <section class="hero">
+    <p class="eyebrow">Early access — 2025</p>
+    <h1>Engineering leaders are accountable for systems they can no longer <strong>fully see or understand.</strong></h1>
+    <p class="hero-sub">Every week, changes ship into systems nobody fully mapped. A schema update breaks a payments integration three teams away. A migration cuts over and something goes dark. Nobody knows why until a customer churns or the business loses money.</p>
+    <div class="hero-incident">
+      <div class="incident-label">Real incident</div>
+      <p class="incident-text">A schema change at a payments company broke a downstream integration nobody knew existed. The team spent four hours in post-mortem archaeology before finding the cause. The dependency had never been documented.</p>
+      <p class="incident-resolution">Graphene maps every dependency automatically — so this surfaces before it ships, not after it costs you. Your team moves faster. Nothing fails quietly.</p>
+    </div>
+    <div class="hero-actions">
+      <a href="#early-access" class="btn-primary">Request early access</a>
+    </div>
+  </section>
 
-        <aside class="stack" style="display:grid;gap:14px;align-content:start">
-          <div class="panel proof">
-            <p class="big">Signal from the past day</p>
-            <p class="small">
-              Design-partner conversations are moving into a pilot—EaaS teams need the missing system understanding layer to prevent “looks good” changes from breaking downstream.
-            </p>
-            <div class="hr"></div>
-            <p class="small">
-              Built for VP Engineering: governance, security review, and the anxiety of unseen dependencies.
-            </p>
-          </div>
+  <hr class="divider">
 
-          <div class="panel cta">
-            <h2>Request a pilot</h2>
-            <p class="fine">A fast, low-lift test scoped to your hardest production-change risks.</p>
-            <a class="btn" href="mailto:hello@graphene-security.com?subject=Graphene%20pilot%20request&body=Hi%20Graphene%2C%0A%0AWe%E2%80%99d%20like%20a%20pilot.%0AOrg%20size%3A%20%0AOne%20near-miss%20incident%3A%20%0A%0AThanks%2C">Request a pilot</a>
-            <p class="fine">We’ll reply with a concrete test plan.</p>
-          </div>
-        </aside>
-      </div>
-    </section>
+  <div class="cta-section" id="early-access">
+    <p class="cta-label">Early access</p>
+    <h2>If your team is shipping faster than you can see — let's talk.</h2>
+    <p>We're working with a small number of engineering teams right now. Fill out the form and we'll set up a 20-minute call to understand your stack. No demo, no pitch.</p>
+    <form class="email-form-full" onsubmit="handleSubmit(event)">
+      <input type="email" class="email-input" placeholder="you@company.com" required id="email-input">
+      <input type="text" class="email-input" placeholder="Your role (e.g. VP Eng)" id="role-input">
+      <button type="submit" class="email-submit-full">Request a 20-minute call →</button>
+    </form>
+
   </div>
+</main>
+
+<footer>
+  <span class="footer-logo">[graphene]</span>
+  <span class="footer-note">© 2025 Graphene Labs, Inc. — San Francisco, CA</span>
+</footer>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  const note = document.getElementById('form-note');
+  const btn = e.target.querySelector('button');
+  btn.textContent = 'Received';
+  btn.style.opacity = '0.6';
+  btn.disabled = true;
+  if (note) note.textContent = 'Someone from the team will be in touch shortly.';
+}
+</script>
 </body>
 </html>
