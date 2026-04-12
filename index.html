@@ -41,12 +41,46 @@ body {
 /* nav */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 1.25rem 2.5rem;
-  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.85rem 2rem 0.85rem 2.5rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem 1.25rem;
   background: rgba(237,234,226,0.92);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
 }
+.nav-built {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.75rem;
+  text-align: center;
+}
+.nav-built-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.3;
+  max-width: 14rem;
+}
+.nav-built-logos {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.nav-built-logos img {
+  height: 22px;
+  width: auto;
+  max-width: 100px;
+  object-fit: contain;
+  opacity: 0.9;
+}
+.nav-built-logos a { line-height: 0; opacity: 0.92; transition: opacity 0.2s; }
+.nav-built-logos a:hover { opacity: 1; }
 .logo { font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 400; color: var(--text); }
 .logo-bracket { color: var(--muted); }
 .nav-cta {
@@ -65,7 +99,23 @@ main { position: relative; z-index: 1; }
   display: flex; flex-direction: column;
   justify-content: flex-start;
   padding: 6.25rem 2.5rem 3rem;
-  max-width: 960px; margin: 0 auto;
+  max-width: 1040px; margin: 0 auto;
+}
+.hero-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 2rem;
+  align-items: start;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards 0.34s;
+}
+@media (max-width: 880px) {
+  .hero-split { grid-template-columns: 1fr; }
+}
+.hero-split .hero-incident {
+  max-width: none;
+  margin-bottom: 0;
 }
 .eyebrow {
   font-family: 'DM Mono', monospace; font-size: 10px;
@@ -80,9 +130,23 @@ h1 {
   opacity: 0; animation: fadeUp 0.5s ease forwards 0.2s;
 }
 h1 strong { font-weight: 500; }
+.hero-lead {
+  max-width: 620px;
+  margin-bottom: 1.35rem;
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards 0.3s;
+}
+.hero-lead .hero-sub {
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.65;
+  margin-bottom: 0.85rem;
+}
+.hero-lead .hero-sub:last-child { margin-bottom: 0; }
 .hero-sub {
   font-size: 0.95rem; color: var(--muted); font-weight: 300;
-  max-width: 560px; line-height: 1.65; margin-bottom: 1.35rem;
+  max-width: 620px; line-height: 1.65; margin-bottom: 1.35rem;
   opacity: 0; animation: fadeUp 0.5s ease forwards 0.3s;
 }
 .hero-incident {
@@ -90,8 +154,8 @@ h1 strong { font-weight: 500; }
   padding: 1rem 1.35rem; margin-bottom: 1.5rem;
   background: rgba(44,44,42,0.04);
   max-width: 560px;
-  opacity: 0; animation: fadeUp 0.5s ease forwards 0.35s;
 }
+.hero-split .hero-incident { margin-bottom: 0; }
 .incident-label {
   font-family: 'DM Mono', monospace; font-size: 9.5px;
   letter-spacing: 0.16em; text-transform: uppercase;
@@ -117,37 +181,39 @@ h1 strong { font-weight: 500; }
 }
 .btn-primary:hover { opacity: 0.75; }
 
-/* visual strip — icons + one line each */
+/* visual strip — beside gap box; stacked on the right */
 .visual-strip {
-  max-width: 960px; margin: 0 auto;
-  padding: 0 2.5rem 2.5rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
-@media (max-width: 700px) {
-  .visual-strip { grid-template-columns: 1fr; padding: 0 1.25rem 2rem; }
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  min-width: 0;
 }
 .visual-card {
   border: 1px solid var(--border);
   background: rgba(44,44,42,0.03);
-  padding: 1.1rem 1rem;
-  text-align: center;
+  padding: 0.85rem 0.9rem;
+  text-align: left;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.65rem 0.85rem;
+  align-items: center;
 }
 .visual-icon {
-  width: 100%; height: 56px; margin-bottom: 0.65rem;
+  width: 48px; height: 48px;
+  flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   color: var(--text);
   opacity: 0.85;
 }
-.visual-icon svg { width: 52px; height: 52px; }
+.visual-icon svg { width: 44px; height: 44px; }
+.visual-card .visual-copy { min-width: 0; }
 .visual-card h3 {
   font-family: 'DM Mono', monospace;
   font-size: 9.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.2rem;
   font-weight: 500;
 }
 .visual-card p {
@@ -217,42 +283,17 @@ h1 strong { font-weight: 500; }
 footer {
   background: var(--text);
   border-top: 1px solid rgba(237,234,226,0.08);
-  padding: 1.75rem 2.5rem 1.5rem;
+  padding: 1.5rem 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   position: relative; z-index: 1;
-}
-.footer-row {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-  gap: 1.25rem;
-  margin-bottom: 1rem;
-}
-.footer-schools {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 1.75rem;
-}
-.footer-schools a {
-  display: flex; flex-direction: column; align-items: flex-start; gap: 0.2rem;
-  text-decoration: none; color: inherit; opacity: 0.88;
-  transition: opacity 0.2s;
-}
-.footer-schools a:hover { opacity: 1; }
-.footer-schools img {
-  height: 30px; width: auto; max-width: 160px;
-  object-fit: contain;
-  opacity: 0.88;
-}
-.footer-schools .school-cap {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: rgba(237,234,226,0.38);
 }
 .footer-logo { font-family: 'DM Mono', monospace; font-size: 13px; color: rgba(237,234,226,0.5); }
 .footer-note {
   font-family: 'DM Mono', monospace;
   font-size: 10px; letter-spacing: 0.08em;
   color: rgba(237,234,226,0.25);
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(237,234,226,0.08);
 }
 
 @keyframes fadeUp {
@@ -260,12 +301,20 @@ footer {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@media (max-width: 900px) {
+  nav {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    padding: 1rem 1.25rem;
+  }
+  .nav-built { justify-content: center; }
+  .hero { padding-top: 8.25rem; }
+}
 @media (max-width: 768px) {
-  nav { padding: 1rem 1.25rem; }
-  .hero { padding: 5.5rem 1.25rem 2.5rem; }
+  .hero { padding: 5.5rem 1.25rem 2.5rem; padding-top: 8.25rem; }
   .cta-section { padding: 5rem 1.25rem; }
-  .footer-row { flex-direction: column; align-items: flex-start; }
-  .footer-schools { flex-direction: column; align-items: flex-start; }
+  footer { flex-direction: column; text-align: center; }
 }
 </style>
 </head>
@@ -275,53 +324,77 @@ footer {
 
 <nav>
   <span class="logo"><span class="logo-bracket">[</span>graphene<span class="logo-bracket">]</span></span>
+  <div class="nav-built">
+    <span class="nav-built-label">Built by engineers &amp; researchers from</span>
+    <div class="nav-built-logos">
+      <a href="https://www.stanford.edu/" target="_blank" rel="noopener noreferrer" title="Stanford University">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Stanford_Cardinal_logo.svg" width="100" height="24" alt="Stanford" loading="lazy" decoding="async" />
+      </a>
+      <a href="https://eecs.berkeley.edu/" target="_blank" rel="noopener noreferrer" title="UC Berkeley EECS">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Seal_of_University_of_California%2C_Berkeley.svg" width="100" height="24" alt="Berkeley EECS" loading="lazy" decoding="async" />
+      </a>
+    </div>
+  </div>
   <a href="#early-access" class="nav-cta">Book a call</a>
 </nav>
 
 <main>
   <section class="hero">
-    <p class="eyebrow">VP / Head of Engineering</p>
+    <p class="eyebrow">For VPs &amp; Heads of Engineering</p>
     <h1>Know what breaks <strong>before your users do.</strong></h1>
-    <p class="hero-sub">You own reliability; teams ship across stacks nobody fully mapped—legacy, vendors, acquisitions. Surprises show up <em>after</em> deploy. Graphene shows blast radius <em>before</em> merge.</p>
-    <div class="hero-incident">
-      <div class="incident-label">The gap</div>
-      <p class="incident-text">Connectivity lived in people and Slack—not a queryable map. Faster change (including AI-generated) widens the risk window.</p>
-      <p class="incident-resolution"><strong>Graphene:</strong> map real boundaries → simulate in a production-like shadow → validate with traffic-shaped checks. Clearer go/no-go.</p>
+    <div class="hero-lead">
+      <p class="hero-sub">You own uptime, revenue, and the exec post-mortem—while your teams ship across codebases nobody fully mapped. Every week, change crosses legacy systems, acquisitions, and vendor APIs nobody drew on one diagram. The failure mode isn’t sloppy commits: it’s the surprise after deploy—the integration three teams away, the consumer nobody listed, the handshake nobody tested end-to-end.</p>
+      <p class="hero-sub">AI is collapsing the old handoffs; velocity goes up, but the “who owns the blast radius?” question doesn’t. Graphene exists so you see what a change will touch <em>before</em> merge—not in Slack at 2am.</p>
     </div>
+
+    <div class="hero-split">
+      <div class="hero-incident">
+        <div class="incident-label">Why this keeps happening</div>
+        <p class="incident-text">The graph of how your systems actually connect never lived in one place. It lived in tenured engineers, ticket archaeology, and hope. When AI-generated change lands next to human edits, your risk window widens—and your best people still end up doing archaeology: stitching logs, traces, vendor docs, and the one Slack thread that explains the legacy edge case.</p>
+        <p class="incident-resolution"><strong>What Graphene does:</strong> map dependencies across real boundaries—not just imports—then simulate in a production-like shadow and validate with traffic-shaped checks. So “passes CI” isn’t mistaken for “safe for customers.” Fewer war rooms. Clearer go/no-go.</p>
+      </div>
+
+      <div class="visual-strip" aria-label="How Graphene works">
+        <div class="visual-card">
+          <div class="visual-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="32" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="52" cy="14" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="52" cy="50" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="34" cy="32" r="6" stroke="var(--accent)" stroke-width="1.5"/><path d="M16.5 30 L28 31.5 M40.5 31.5 L47 17 M40.5 33.5 L47 47" stroke="currentColor" stroke-width="1.2" opacity="0.55"/></svg>
+          </div>
+          <div class="visual-copy">
+            <h3>Map</h3>
+            <p>Service-to-service, schema-to-consumer, vendor-to-internal—not just what imports what.</p>
+          </div>
+        </div>
+        <div class="visual-card">
+          <div class="visual-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="18" width="36" height="32" rx="2" stroke="currentColor" stroke-width="1.5" opacity="0.45"/><rect x="22" y="14" width="36" height="32" rx="2" stroke="var(--accent)" stroke-width="1.5"/><path d="M28 30 h16 M28 36 h12" stroke="currentColor" stroke-width="1.2" opacity="0.5"/></svg>
+          </div>
+          <div class="visual-copy">
+            <h3>Simulate</h3>
+            <p>Shadow environments that mirror load and topology—before users see a regression.</p>
+          </div>
+        </div>
+        <div class="visual-card">
+          <div class="visual-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 40 Q20 12 32 28 T56 22" stroke="currentColor" stroke-width="1.5" opacity="0.45"/><path d="M8 44 Q22 24 34 36 T56 30" stroke="var(--accent)" stroke-width="1.5"/><circle cx="56" cy="22" r="3" fill="currentColor" opacity="0.35"/><circle cx="56" cy="30" r="3" fill="var(--accent)"/></svg>
+          </div>
+          <div class="visual-copy">
+            <h3>Validate</h3>
+            <p>Synthetic journeys shaped by real traffic—full-stack consequence modeling, not only unit tests.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="hero-actions">
-      <a href="#early-access" class="btn-primary">Book a scoping call</a>
+      <a href="#early-access" class="btn-primary">Book a 20-minute scoping call</a>
     </div>
   </section>
-
-  <div class="visual-strip" aria-label="How Graphene works">
-    <div class="visual-card">
-      <div class="visual-icon" aria-hidden="true">
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="32" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="52" cy="14" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="52" cy="50" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="34" cy="32" r="6" stroke="var(--accent)" stroke-width="1.5"/><path d="M16.5 30 L28 31.5 M40.5 31.5 L47 17 M40.5 33.5 L47 47" stroke="currentColor" stroke-width="1.2" opacity="0.55"/></svg>
-      </div>
-      <h3>Map</h3>
-      <p>Dependencies across services, schemas, vendors—not just imports.</p>
-    </div>
-    <div class="visual-card">
-      <div class="visual-icon" aria-hidden="true">
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="18" width="36" height="32" rx="2" stroke="currentColor" stroke-width="1.5" opacity="0.45"/><rect x="22" y="14" width="36" height="32" rx="2" stroke="var(--accent)" stroke-width="1.5"/><path d="M28 30 h16 M28 36 h12" stroke="currentColor" stroke-width="1.2" opacity="0.5"/></svg>
-      </div>
-      <h3>Simulate</h3>
-      <p>Production-like shadow before the change hits users.</p>
-    </div>
-    <div class="visual-card">
-      <div class="visual-icon" aria-hidden="true">
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 40 Q20 12 32 28 T56 22" stroke="currentColor" stroke-width="1.5" opacity="0.45"/><path d="M8 44 Q22 24 34 36 T56 30" stroke="var(--accent)" stroke-width="1.5"/><circle cx="56" cy="22" r="3" fill="currentColor" opacity="0.35"/><circle cx="56" cy="30" r="3" fill="var(--accent)"/></svg>
-      </div>
-      <h3>Validate</h3>
-      <p>Synthetic paths shaped by real traffic—not only unit tests.</p>
-    </div>
-  </div>
 
   <hr class="divider">
 
   <div class="cta-section" id="early-access">
-    <h2>Migration, M&amp;A integration, or vendor cutover?</h2>
-    <p>Share your work email—we’ll reply within one business day with a few scoping questions.</p>
+    <h2>Shipping a migration, acquisition, or vendor cutover?</h2>
+    <p>We’re taking a small number of scoping engagements with teams where the stakes are irreversible and the stack is messy across boundaries. Share your work email—we’ll reply within one business day with 2–3 questions about your risk surface, then schedule a short call if there’s a fit.</p>
     <form class="email-form-full" onsubmit="handleSubmit(event)">
       <input type="email" class="email-input" placeholder="Work email" required id="email-input">
       <input type="text" class="email-input" placeholder="Title (e.g. VP Engineering)" id="role-input">
@@ -333,20 +406,8 @@ footer {
 </main>
 
 <footer>
-  <div class="footer-row">
-    <span class="footer-logo">[graphene]</span>
-    <div class="footer-schools">
-      <a href="https://www.stanford.edu/" target="_blank" rel="noopener noreferrer">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Stanford_Cardinal_logo.svg" width="120" height="32" alt="Stanford University" loading="lazy" decoding="async" />
-        <span class="school-cap">Stanford University</span>
-      </a>
-      <a href="https://eecs.berkeley.edu/" target="_blank" rel="noopener noreferrer">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Seal_of_University_of_California%2C_Berkeley.svg" width="120" height="32" alt="UC Berkeley" loading="lazy" decoding="async" />
-        <span class="school-cap">Berkeley · EECS</span>
-      </a>
-    </div>
-  </div>
-  <p class="footer-note">© 2025 Graphene Labs, Inc. · San Francisco, CA</p>
+  <span class="footer-logo">[graphene]</span>
+  <span class="footer-note">© 2025 Graphene Labs, Inc. · San Francisco, CA</span>
 </footer>
 
 <script>
