@@ -138,10 +138,18 @@ main { position: relative; z-index: 1; }
   opacity: 0; animation: fadeUp 0.5s ease forwards 0.1s;
 }
 h1 {
-  font-size: clamp(1.85rem, 4.2vw, 3.15rem); font-weight: 300;
-  line-height: 1.08; letter-spacing: -0.025em; max-width: 52rem;
-  margin-bottom: 1.25rem; color: var(--text);
-  opacity: 0; animation: fadeUp 0.5s ease forwards 0.2s;
+  font-size: clamp(1.35rem, 3.2vw + 0.6rem, 3.15rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  max-width: none;
+  margin-bottom: 1.25rem;
+  color: var(--text);
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards 0.2s;
+}
+@media (min-width: 560px) {
+  h1 { white-space: nowrap; }
 }
 h1 strong { font-weight: 500; }
 .hero-lead {
@@ -366,7 +374,7 @@ footer {
     <div class="hero-split">
       <div class="hero-incident">
         <div class="incident-label">Why this keeps happening</div>
-        <p class="incident-text">The graph of how your systems actually connect never lived in one place. It lived in tenured engineers, ticket archaeology, and hope. When AI-generated change lands next to human edits, your risk window widens—and your best people still end up doing archaeology: stitching logs, traces, vendor docs, and the one Slack thread that explains the legacy edge case.</p>
+        <p class="incident-text">Nothing authoritative mapped how things really connect—only people, tickets, and Slack. More change (human or AI) just means more production surprises.</p>
         <p class="incident-resolution"><strong>What Graphene does:</strong> map dependencies across real boundaries—not just imports—then simulate in a production-like shadow and validate with traffic-shaped checks. So “passes CI” isn’t mistaken for “safe for customers.” Fewer war rooms. Clearer go/no-go.</p>
       </div>
 
