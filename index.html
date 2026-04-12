@@ -117,6 +117,46 @@ h1 strong { font-weight: 500; }
 }
 .btn-primary:hover { opacity: 0.75; }
 
+/* visual strip — icons + one line each */
+.visual-strip {
+  max-width: 960px; margin: 0 auto;
+  padding: 0 2.5rem 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 700px) {
+  .visual-strip { grid-template-columns: 1fr; padding: 0 1.25rem 2rem; }
+}
+.visual-card {
+  border: 1px solid var(--border);
+  background: rgba(44,44,42,0.03);
+  padding: 1.1rem 1rem;
+  text-align: center;
+}
+.visual-icon {
+  width: 100%; height: 56px; margin-bottom: 0.65rem;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text);
+  opacity: 0.85;
+}
+.visual-icon svg { width: 52px; height: 52px; }
+.visual-card h3 {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+  font-weight: 500;
+}
+.visual-card p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.45;
+  font-weight: 300;
+}
+
 .divider { border: none; border-top: 1px solid var(--border); }
 
 /* CTA — dark inverted section */
@@ -177,12 +217,43 @@ h1 strong { font-weight: 500; }
 footer {
   background: var(--text);
   border-top: 1px solid rgba(237,234,226,0.08);
-  padding: 1.5rem 2.5rem;
-  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.75rem 2.5rem 1.5rem;
   position: relative; z-index: 1;
 }
+.footer-row {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+}
+.footer-schools {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 1.75rem;
+}
+.footer-schools a {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 0.2rem;
+  text-decoration: none; color: inherit; opacity: 0.88;
+  transition: opacity 0.2s;
+}
+.footer-schools a:hover { opacity: 1; }
+.footer-schools img {
+  height: 30px; width: auto; max-width: 160px;
+  object-fit: contain;
+  opacity: 0.88;
+}
+.footer-schools .school-cap {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(237,234,226,0.38);
+}
 .footer-logo { font-family: 'DM Mono', monospace; font-size: 13px; color: rgba(237,234,226,0.5); }
-.footer-note { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: rgba(237,234,226,0.25); }
+.footer-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.08em;
+  color: rgba(237,234,226,0.25);
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(237,234,226,0.08);
+}
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(12px); }
@@ -193,7 +264,8 @@ footer {
   nav { padding: 1rem 1.25rem; }
   .hero { padding: 5.5rem 1.25rem 2.5rem; }
   .cta-section { padding: 5rem 1.25rem; }
-  footer { flex-direction: column; gap: 0.75rem; text-align: center; }
+  .footer-row { flex-direction: column; align-items: flex-start; }
+  .footer-schools { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
@@ -208,29 +280,52 @@ footer {
 
 <main>
   <section class="hero">
-    <p class="eyebrow">For VPs &amp; Heads of Engineering</p>
+    <p class="eyebrow">VP / Head of Engineering</p>
     <h1>Know what breaks <strong>before your users do.</strong></h1>
-    <p class="hero-sub">You own uptime, revenue impact, and the exec post-mortem—while your teams ship across codebases nobody fully mapped. The failure mode isn’t “bad commits.” It’s surprises after deploy: a boundary nobody owned, a consumer nobody listed, a vendor handshake nobody tested end-to-end. Graphene exists so you see that blast radius <em>before</em> merge—not in Slack at 2am.</p>
+    <p class="hero-sub">You own reliability; teams ship across stacks nobody fully mapped—legacy, vendors, acquisitions. Surprises show up <em>after</em> deploy. Graphene shows blast radius <em>before</em> merge.</p>
     <div class="hero-incident">
-      <div class="incident-label">Why this keeps happening</div>
-      <p class="incident-text">The graph of how your systems actually connect never lived in one place. It lived in tenured engineers, ticket archaeology, and hope. When velocity goes up—especially with AI-generated change—your risk window gets wider, not narrower.</p>
-      <p class="incident-resolution"><strong>What you get:</strong> a live dependency map across real boundaries, simulation against production-like conditions, and traffic-shaped checks so “passes CI” doesn’t mean “safe for customers.” Fewer war rooms. Clearer go/no-go.</p>
+      <div class="incident-label">The gap</div>
+      <p class="incident-text">Connectivity lived in people and Slack—not a queryable map. Faster change (including AI-generated) widens the risk window.</p>
+      <p class="incident-resolution"><strong>Graphene:</strong> map real boundaries → simulate in a production-like shadow → validate with traffic-shaped checks. Clearer go/no-go.</p>
     </div>
     <div class="hero-actions">
-      <a href="#early-access" class="btn-primary">Book a 20-minute scoping call</a>
+      <a href="#early-access" class="btn-primary">Book a scoping call</a>
     </div>
   </section>
+
+  <div class="visual-strip" aria-label="How Graphene works">
+    <div class="visual-card">
+      <div class="visual-icon" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="32" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="52" cy="14" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="52" cy="50" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="34" cy="32" r="6" stroke="var(--accent)" stroke-width="1.5"/><path d="M16.5 30 L28 31.5 M40.5 31.5 L47 17 M40.5 33.5 L47 47" stroke="currentColor" stroke-width="1.2" opacity="0.55"/></svg>
+      </div>
+      <h3>Map</h3>
+      <p>Dependencies across services, schemas, vendors—not just imports.</p>
+    </div>
+    <div class="visual-card">
+      <div class="visual-icon" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="18" width="36" height="32" rx="2" stroke="currentColor" stroke-width="1.5" opacity="0.45"/><rect x="22" y="14" width="36" height="32" rx="2" stroke="var(--accent)" stroke-width="1.5"/><path d="M28 30 h16 M28 36 h12" stroke="currentColor" stroke-width="1.2" opacity="0.5"/></svg>
+      </div>
+      <h3>Simulate</h3>
+      <p>Production-like shadow before the change hits users.</p>
+    </div>
+    <div class="visual-card">
+      <div class="visual-icon" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 40 Q20 12 32 28 T56 22" stroke="currentColor" stroke-width="1.5" opacity="0.45"/><path d="M8 44 Q22 24 34 36 T56 30" stroke="var(--accent)" stroke-width="1.5"/><circle cx="56" cy="22" r="3" fill="currentColor" opacity="0.35"/><circle cx="56" cy="30" r="3" fill="var(--accent)"/></svg>
+      </div>
+      <h3>Validate</h3>
+      <p>Synthetic paths shaped by real traffic—not only unit tests.</p>
+    </div>
+  </div>
 
   <hr class="divider">
 
   <div class="cta-section" id="early-access">
-    <p class="cta-label">Limited design partners · 2025</p>
-    <h2>Shipping a migration, acquisition, or vendor cutover? Talk to us first.</h2>
-    <p>We’re taking a handful of founder-led engagements with teams where the stakes are irreversible and the stack is messy. Drop your details—we’ll reply within one business day with 2–3 questions about your boundary risk. If there’s a fit, you’ll get a short call with founders (no slide deck, no generic demo).</p>
+    <h2>Migration, M&amp;A integration, or vendor cutover?</h2>
+    <p>Share your work email—we’ll reply within one business day with a few scoping questions.</p>
     <form class="email-form-full" onsubmit="handleSubmit(event)">
       <input type="email" class="email-input" placeholder="Work email" required id="email-input">
       <input type="text" class="email-input" placeholder="Title (e.g. VP Engineering)" id="role-input">
-      <button type="submit" class="email-submit-full">Get a reply from founders →</button>
+      <button type="submit" class="email-submit-full">Request contact →</button>
       <p id="form-note" class="form-note" aria-live="polite"></p>
     </form>
 
@@ -238,8 +333,20 @@ footer {
 </main>
 
 <footer>
-  <span class="footer-logo">[graphene]</span>
-  <span class="footer-note">Antonio Martin &amp; Fahad Nabi · © 2025 Graphene Labs, Inc. · San Francisco, CA</span>
+  <div class="footer-row">
+    <span class="footer-logo">[graphene]</span>
+    <div class="footer-schools">
+      <a href="https://www.stanford.edu/" target="_blank" rel="noopener noreferrer">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Stanford_Cardinal_logo.svg" width="120" height="32" alt="Stanford University" loading="lazy" decoding="async" />
+        <span class="school-cap">Stanford University</span>
+      </a>
+      <a href="https://eecs.berkeley.edu/" target="_blank" rel="noopener noreferrer">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Seal_of_University_of_California%2C_Berkeley.svg" width="120" height="32" alt="UC Berkeley" loading="lazy" decoding="async" />
+        <span class="school-cap">Berkeley · EECS</span>
+      </a>
+    </div>
+  </div>
+  <p class="footer-note">© 2025 Graphene Labs, Inc. · San Francisco, CA</p>
 </footer>
 
 <script>
