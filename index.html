@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[graphene] — Ship to Production with Confidence</title>
+<title>[graphene] — See production risk before you ship</title>
+<meta name="description" content="For engineering leaders shipping across legacy, vendors, and teams you don't own: Graphene maps cross-boundary impact and simulates consequences before users feel them." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
@@ -202,34 +203,35 @@ footer {
 
 <nav>
   <span class="logo"><span class="logo-bracket">[</span>graphene<span class="logo-bracket">]</span></span>
-  <a href="#early-access" class="nav-cta">Request access</a>
+  <a href="#early-access" class="nav-cta">Book a call</a>
 </nav>
 
 <main>
   <section class="hero">
-    <p class="eyebrow">Early access — 2025</p>
-    <h1>Engineering leaders are accountable for systems they can no longer <strong>fully see or understand.</strong></h1>
-    <p class="hero-sub">Every week, changes ship into systems nobody fully mapped. A schema update breaks a payments integration three teams away. A migration cuts over and something goes dark. Nobody knows why until a customer churns or the business loses money.</p>
+    <p class="eyebrow">For VPs &amp; Heads of Engineering</p>
+    <h1>Know what breaks <strong>before your users do.</strong></h1>
+    <p class="hero-sub">You own uptime, revenue impact, and the exec post-mortem—while your teams ship across codebases nobody fully mapped. The failure mode isn’t “bad commits.” It’s surprises after deploy: a boundary nobody owned, a consumer nobody listed, a vendor handshake nobody tested end-to-end. Graphene exists so you see that blast radius <em>before</em> merge—not in Slack at 2am.</p>
     <div class="hero-incident">
-      <div class="incident-label">Real incident</div>
-      <p class="incident-text">A schema change at a payments company broke a downstream integration nobody knew existed. The team spent four hours in post-mortem archaeology before finding the cause. The dependency had never been documented.</p>
-      <p class="incident-resolution">Graphene maps every dependency automatically — so this surfaces before it ships, not after it costs you. Your team moves faster. Nothing fails quietly.</p>
+      <div class="incident-label">Why this keeps happening</div>
+      <p class="incident-text">The graph of how your systems actually connect never lived in one place. It lived in tenured engineers, ticket archaeology, and hope. When velocity goes up—especially with AI-generated change—your risk window gets wider, not narrower.</p>
+      <p class="incident-resolution"><strong>What you get:</strong> a live dependency map across real boundaries, simulation against production-like conditions, and traffic-shaped checks so “passes CI” doesn’t mean “safe for customers.” Fewer war rooms. Clearer go/no-go.</p>
     </div>
     <div class="hero-actions">
-      <a href="#early-access" class="btn-primary">Request early access</a>
+      <a href="#early-access" class="btn-primary">Book a 20-minute scoping call</a>
     </div>
   </section>
 
   <hr class="divider">
 
   <div class="cta-section" id="early-access">
-    <p class="cta-label">Early access</p>
-    <h2>If your team is shipping faster than you can see — let's talk.</h2>
-    <p>We're working with a small number of engineering teams right now. Fill out the form and we'll set up a 20-minute call to understand your stack. No demo, no pitch.</p>
+    <p class="cta-label">Limited design partners · 2025</p>
+    <h2>Shipping a migration, acquisition, or vendor cutover? Talk to us first.</h2>
+    <p>We’re taking a handful of founder-led engagements with teams where the stakes are irreversible and the stack is messy. Drop your details—we’ll reply within one business day with 2–3 questions about your boundary risk. If there’s a fit, you’ll get a short call with founders (no slide deck, no generic demo).</p>
     <form class="email-form-full" onsubmit="handleSubmit(event)">
-      <input type="email" class="email-input" placeholder="you@company.com" required id="email-input">
-      <input type="text" class="email-input" placeholder="Your role (e.g. VP Eng)" id="role-input">
-      <button type="submit" class="email-submit-full">Request a 20-minute call →</button>
+      <input type="email" class="email-input" placeholder="Work email" required id="email-input">
+      <input type="text" class="email-input" placeholder="Title (e.g. VP Engineering)" id="role-input">
+      <button type="submit" class="email-submit-full">Get a reply from founders →</button>
+      <p id="form-note" class="form-note" aria-live="polite"></p>
     </form>
 
   </div>
@@ -237,7 +239,7 @@ footer {
 
 <footer>
   <span class="footer-logo">[graphene]</span>
-  <span class="footer-note">© 2025 Graphene Labs, Inc. — San Francisco, CA</span>
+  <span class="footer-note">Antonio Martin &amp; Fahad Nabi · © 2025 Graphene Labs, Inc. · San Francisco, CA</span>
 </footer>
 
 <script>
