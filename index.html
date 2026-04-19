@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[graphene] — See production risk before you ship</title>
+<title>[graphene] · See production risk before you ship</title>
 <meta name="description" content="For engineering leaders shipping across legacy, vendors, and teams you don't own: Graphene maps cross-boundary impact and simulates consequences before users feel them." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
@@ -207,7 +207,7 @@ h1 strong { font-weight: 500; }
 }
 .btn-primary:hover { opacity: 0.75; }
 
-/* visual strip — beside gap box; stacked on the right */
+/* visual strip: beside gap box, stacked on the right */
 .visual-strip {
   display: flex;
   flex-direction: column;
@@ -251,7 +251,7 @@ h1 strong { font-weight: 500; }
 
 .divider { border: none; border-top: 1px solid var(--border); }
 
-/* CTA — dark inverted section */
+/* CTA: dark inverted section */
 .cta-section {
   background: var(--text);
   padding: 7rem 2.5rem;
@@ -382,15 +382,15 @@ footer {
     <p class="eyebrow">For VPs &amp; Heads of Engineering</p>
     <h1>Know what breaks <strong>before your users do.</strong></h1>
     <div class="hero-lead">
-      <p class="hero-sub">You own uptime, revenue, and the exec post-mortem—while teams ship through legacy stacks, acquisitions, and vendor APIs nobody drew on one diagram. The failure isn’t sloppy commits: it’s the surprise after deploy—the integration three teams away, the consumer nobody listed, the handshake nobody tested end-to-end.</p>
-      <p class="hero-sub">AI collapses old handoffs and speeds up diffs, but not the question of who owns blast radius. Graphene shows what a change will touch <em>before</em> merge—not in Slack at 2am.</p>
+      <p class="hero-sub">You own uptime, revenue, and the exec post-mortem, while teams ship through legacy stacks, acquisitions, and vendor APIs nobody drew on one diagram. The failure isn’t sloppy commits: it’s the surprise after deploy (the integration three teams away, the consumer nobody listed, the handshake nobody tested end-to-end).</p>
+      <p class="hero-sub">AI collapses old handoffs and speeds up diffs, but not the question of who owns blast radius. Graphene shows what a change will touch <em>before</em> merge, not in Slack at 2am.</p>
     </div>
 
     <div class="hero-split">
       <div class="hero-incident">
         <div class="incident-label">Why this keeps happening</div>
-        <p class="incident-text">Nothing authoritative mapped how things really connect—only people, tickets, and Slack. More change (human or AI) just means more production surprises.</p>
-        <p class="incident-resolution"><strong>What Graphene does:</strong> map dependencies across real boundaries—not just imports—then simulate in a production-like shadow and validate with traffic-shaped checks. So “passes CI” isn’t mistaken for “safe for customers.” Fewer war rooms. Clearer go/no-go.</p>
+        <p class="incident-text">Nothing authoritative mapped how things really connect: only people, tickets, and Slack. More change (human or AI) just means more production surprises.</p>
+        <p class="incident-resolution"><strong>What Graphene does:</strong> map dependencies across real boundaries (not just imports), then simulate in a production-like shadow and validate with traffic-shaped checks. So “passes CI” isn’t mistaken for “safe for customers.” Fewer war rooms. Clearer go/no-go.</p>
       </div>
 
       <div class="visual-strip" aria-label="How Graphene works">
@@ -400,7 +400,7 @@ footer {
           </div>
           <div class="visual-copy">
             <h3>Map</h3>
-            <p>Service-to-service, schema-to-consumer, vendor-to-internal—not just what imports what.</p>
+            <p>Service-to-service, schema-to-consumer, vendor-to-internal, not just what imports what.</p>
           </div>
         </div>
         <div class="visual-card">
@@ -409,7 +409,7 @@ footer {
           </div>
           <div class="visual-copy">
             <h3>Simulate</h3>
-            <p>Shadow environments that mirror load and topology—before users see a regression.</p>
+            <p>Shadow environments that mirror load and topology so regressions surface before users do.</p>
           </div>
         </div>
         <div class="visual-card">
@@ -418,7 +418,7 @@ footer {
           </div>
           <div class="visual-copy">
             <h3>Validate</h3>
-            <p>Synthetic journeys shaped by real traffic—full-stack consequence modeling, not only unit tests.</p>
+            <p>Synthetic journeys shaped by real traffic: full-stack consequence modeling, not only unit tests.</p>
           </div>
         </div>
       </div>
@@ -433,7 +433,7 @@ footer {
 
   <div class="cta-section" id="early-access">
     <h2>Shipping a migration, acquisition, or vendor cutover?</h2>
-    <p>We’re taking a small number of scoping engagements with teams where the stakes are irreversible and the stack is messy across boundaries. Share your work email—we’ll reply within one business day with 2–3 questions about your risk surface, then schedule a short call if there’s a fit.</p>
+    <p>We’re taking a small number of scoping engagements with teams where the stakes are irreversible and the stack is messy across boundaries. Share your work email. We’ll reply within one business day with two or three questions about your risk surface, then schedule a short call if there’s a fit.</p>
     <form class="email-form-full" onsubmit="handleSubmit(event)" novalidate>
       <input type="email" class="email-input" placeholder="Work email (company domain)" required id="email-input" autocomplete="email" inputmode="email" aria-describedby="email-error">
       <p id="email-error" class="email-error-msg" role="alert"></p>
@@ -504,7 +504,7 @@ footer {
     if (isConsumerDomain(domain)) {
       if (emailEl) emailEl.classList.add('email-invalid');
       if (errEl) {
-        errEl.textContent = 'Please use your company email—we can’t accept personal inboxes (Gmail, Yahoo, Outlook, iCloud, etc.).';
+        errEl.textContent = 'Please use your company email. We can’t accept personal inboxes (Gmail, Yahoo, Outlook, iCloud, etc.).';
         errEl.classList.add('is-visible');
       }
       if (emailEl) emailEl.focus();
