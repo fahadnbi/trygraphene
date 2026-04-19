@@ -445,10 +445,14 @@ footer {
     <p>We’re taking a small number of scoping engagements with teams where the stakes are irreversible and the stack is messy across boundaries. Share your work email. We’ll reply within one business day with two or three questions about your risk surface, then schedule a short call if there’s a fit.</p>
     <iframe name="gas-leads" id="gas-leads-frame" title="" style="display:none;width:0;height:0;border:0" aria-hidden="true"></iframe>
     <form class="email-form-full" id="lead-form" action="#" method="post" target="gas-leads" onsubmit="handleSubmit(event)" novalidate>
-      <input type="email" name="email" class="email-input" placeholder="Work email (company domain)" required id="email-input" autocomplete="email" inputmode="email" aria-describedby="email-error">
+      <input type="email" name="email" class="email-input" placeholder="Work email" required id="email-input" autocomplete="email" inputmode="email" aria-describedby="email-error">
       <p id="email-error" class="email-error-msg" role="alert"></p>
-      <input type="text" name="company" class="email-input" placeholder="Company" id="company-input" autocomplete="organization">
-      <input type="text" name="title" class="email-input" placeholder="Title (e.g. VP Engineering)" id="role-input" autocomplete="organization-title">
+      <input type="text" name="full_name" class="email-input" placeholder="Name" required id="name-input" autocomplete="name" aria-describedby="name-error">
+      <p id="name-error" class="email-error-msg" role="alert"></p>
+      <input type="text" name="company" class="email-input" placeholder="Company" required id="company-input" autocomplete="organization">
+      <p id="company-error" class="email-error-msg" role="alert"></p>
+      <input type="text" name="title" class="email-input" placeholder="Title" required id="role-input" autocomplete="organization-title">
+      <p id="title-error" class="email-error-msg" role="alert"></p>
       <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="email-submit-full" id="lead-submit">Request contact →</button>
       <p id="form-note" class="form-note" aria-live="polite"></p>
@@ -495,6 +499,27 @@ footer {
     if (err) { err.textContent = ''; err.classList.remove('is-visible'); }
   }
 
+  function clearNameError() {
+    var input = document.getElementById('name-input');
+    var err = document.getElementById('name-error');
+    if (input) input.classList.remove('email-invalid');
+    if (err) { err.textContent = ''; err.classList.remove('is-visible'); }
+  }
+
+  function clearCompanyError() {
+    var input = document.getElementById('company-input');
+    var err = document.getElementById('company-error');
+    if (input) input.classList.remove('email-invalid');
+    if (err) { err.textContent = ''; err.classList.remove('is-visible'); }
+  }
+
+  function clearTitleError() {
+    var input = document.getElementById('role-input');
+    var err = document.getElementById('title-error');
+    if (input) input.classList.remove('email-invalid');
+    if (err) { err.textContent = ''; err.classList.remove('is-visible'); }
+  }
+
   window.handleSubmit = function (e) {
     e.preventDefault();
     var note = document.getElementById('form-note');
@@ -506,6 +531,16 @@ footer {
     var domain = domainFromEmail(raw);
 
     clearEmailError();
+    clearNameError();
+    clearCompanyError();
+    clearTitleError();
+
+    var nameEl = document.getElementById('name-input');
+    var companyEl = document.getElementById('company-input');
+    var roleEl = document.getElementById('role-input');
+    var nameErr = document.getElementById('name-error');
+    var companyErr = document.getElementById('company-error');
+    var titleErr = document.getElementById('title-error');
 
     if (!raw || !domain) {
       if (emailEl) emailEl.classList.add('email-invalid');
@@ -524,6 +559,39 @@ footer {
         errEl.classList.add('is-visible');
       }
       if (emailEl) emailEl.focus();
+      return;
+    }
+
+    var fullName = (nameEl && nameEl.value) ? nameEl.value.trim() : '';
+    if (!fullName) {
+      if (nameEl) nameEl.classList.add('email-invalid');
+      if (nameErr) {
+        nameErr.textContent = 'Enter your name.';
+        nameErr.classList.add('is-visible');
+      }
+      if (nameEl) nameEl.focus();
+      return;
+    }
+
+    var companyVal = (companyEl && companyEl.value) ? companyEl.value.trim() : '';
+    if (!companyVal) {
+      if (companyEl) companyEl.classList.add('email-invalid');
+      if (companyErr) {
+        companyErr.textContent = 'Enter your company.';
+        companyErr.classList.add('is-visible');
+      }
+      if (companyEl) companyEl.focus();
+      return;
+    }
+
+    var jobTitle = (roleEl && roleEl.value) ? roleEl.value.trim() : '';
+    if (!jobTitle) {
+      if (roleEl) roleEl.classList.add('email-invalid');
+      if (titleErr) {
+        titleErr.textContent = 'Enter your title.';
+        titleErr.classList.add('is-visible');
+      }
+      if (roleEl) roleEl.focus();
       return;
     }
 
@@ -558,6 +626,9 @@ footer {
   };
 
   document.getElementById('email-input').addEventListener('input', clearEmailError);
+  document.getElementById('name-input').addEventListener('input', clearNameError);
+  document.getElementById('company-input').addEventListener('input', clearCompanyError);
+  document.getElementById('role-input').addEventListener('input', clearTitleError);
 })();
 </script>
 </body>

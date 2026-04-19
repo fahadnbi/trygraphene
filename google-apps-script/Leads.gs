@@ -10,8 +10,9 @@
  *    - Who has access: Anyone
  * 5. Copy the Web app URL (ends in /exec) into index.html as GAS_WEB_APP_URL.
  *
- * The form POSTs application/x-www-form-urlencoded fields: email, company, title, website (honeypot, must be empty).
- * If you already have a Leads sheet with the old 4-column header, add a Company column after Email or adjust headers to match appendRow order.
+ * POST fields: email, full_name, company, title, website (honeypot, must be empty).
+ * New sheet header: Timestamp, Email, Name, Company, Title, Source.
+ * If upgrading an old sheet, add Name column after Email and align headers with appendRow order.
  */
 
 var SHEET_NAME = 'Leads';
@@ -36,8 +37,8 @@ function setupLeadsSheet() {
     sheet = ss.insertSheet(SHEET_NAME);
   }
   if (sheet.getLastRow() === 0) {
-    sheet.appendRow(['Timestamp', 'Email', 'Company', 'Title', 'Source']);
-    sheet.getRange(1, 1, 1, 5).setFontWeight('bold');
+    sheet.appendRow(['Timestamp', 'Email', 'Name', 'Company', 'Title', 'Source']);
+    sheet.getRange(1, 1, 1, 6).setFontWeight('bold');
   }
 }
 
@@ -55,6 +56,7 @@ function doPost(e) {
       return ContentService.createTextOutput('ok').setMimeType(ContentService.MimeType.TEXT);
     }
     var email = String(p.email || '').trim();
+    var fullName = String(p.full_name || '').trim();
     var company = String(p.company || '').trim();
     var title = String(p.title || '').trim();
     if (!email) {
@@ -62,7 +64,7 @@ function doPost(e) {
     }
     setupLeadsSheet();
     var sheet = getSpreadsheet().getSheetByName(SHEET_NAME);
-    sheet.appendRow([new Date(), email, company, title, 'trygraphene.dev']);
+    sheet.appendRow([new Date(), email, fullName, company, title, 'trygraphene.dev']);
     return ContentService.createTextOutput('ok').setMimeType(ContentService.MimeType.TEXT);
   } catch (err) {
     return ContentService.createTextOutput('error').setMimeType(ContentService.MimeType.TEXT);
