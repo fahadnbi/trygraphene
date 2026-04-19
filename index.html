@@ -290,6 +290,19 @@ h1 strong { font-weight: 500; }
 }
 .email-input::placeholder { color: rgba(237,234,226,0.3); }
 .email-input:focus { border-color: var(--accent); }
+.email-input.email-invalid {
+  border-color: #e57373 !important;
+  background: rgba(229, 115, 115, 0.08);
+}
+.email-error-msg {
+  display: none;
+  font-size: 12px;
+  color: #ffb4b4;
+  padding: 0.5rem 1.25rem 0.35rem;
+  line-height: 1.4;
+  text-align: left;
+}
+.email-error-msg.is-visible { display: block; }
 .email-submit-full {
   font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
   letter-spacing: 0.14em; text-transform: uppercase;
@@ -421,8 +434,9 @@ footer {
   <div class="cta-section" id="early-access">
     <h2>Shipping a migration, acquisition, or vendor cutover?</h2>
     <p>We’re taking a small number of scoping engagements with teams where the stakes are irreversible and the stack is messy across boundaries. Share your work email—we’ll reply within one business day with 2–3 questions about your risk surface, then schedule a short call if there’s a fit.</p>
-    <form class="email-form-full" onsubmit="handleSubmit(event)">
-      <input type="email" class="email-input" placeholder="Work email" required id="email-input">
+    <form class="email-form-full" onsubmit="handleSubmit(event)" novalidate>
+      <input type="email" class="email-input" placeholder="Work email (company domain)" required id="email-input" autocomplete="email" inputmode="email" aria-describedby="email-error">
+      <p id="email-error" class="email-error-msg" role="alert"></p>
       <input type="text" class="email-input" placeholder="Title (e.g. VP Engineering)" id="role-input">
       <button type="submit" class="email-submit-full">Request contact →</button>
       <p id="form-note" class="form-note" aria-live="polite"></p>
@@ -437,15 +451,74 @@ footer {
 </footer>
 
 <script>
-function handleSubmit(e) {
-  e.preventDefault();
-  const note = document.getElementById('form-note');
-  const btn = e.target.querySelector('button');
-  btn.textContent = 'Received';
-  btn.style.opacity = '0.6';
-  btn.disabled = true;
-  if (note) note.textContent = 'Someone from the team will be in touch shortly.';
-}
+(function () {
+  var BLOCKED = [
+    'gmail.com', 'googlemail.com', 'yahoo.com', 'yahoo.co.uk', 'ymail.com',
+    'outlook.com', 'hotmail.com', 'hotmail.co.uk', 'live.com', 'msn.com',
+    'icloud.com', 'me.com', 'mac.com', 'proton.me', 'protonmail.com', 'aol.com'
+  ];
+
+  function domainFromEmail(email) {
+    var i = email.lastIndexOf('@');
+    if (i < 0) return '';
+    return email.slice(i + 1).toLowerCase().trim();
+  }
+
+  function isConsumerDomain(domain) {
+    if (!domain) return true;
+    for (var j = 0; j < BLOCKED.length; j++) {
+      var b = BLOCKED[j];
+      if (domain === b || domain.slice(-(b.length + 1)) === '.' + b) return true;
+    }
+    return false;
+  }
+
+  function clearEmailError() {
+    var input = document.getElementById('email-input');
+    var err = document.getElementById('email-error');
+    if (input) input.classList.remove('email-invalid');
+    if (err) { err.textContent = ''; err.classList.remove('is-visible'); }
+  }
+
+  window.handleSubmit = function (e) {
+    e.preventDefault();
+    var note = document.getElementById('form-note');
+    var btn = e.target.querySelector('button');
+    var emailEl = document.getElementById('email-input');
+    var errEl = document.getElementById('email-error');
+    var raw = (emailEl && emailEl.value) ? emailEl.value.trim() : '';
+    var domain = domainFromEmail(raw);
+
+    clearEmailError();
+
+    if (!raw || !domain) {
+      if (emailEl) emailEl.classList.add('email-invalid');
+      if (errEl) {
+        errEl.textContent = 'Enter a valid work email.';
+        errEl.classList.add('is-visible');
+      }
+      if (emailEl) emailEl.focus();
+      return;
+    }
+
+    if (isConsumerDomain(domain)) {
+      if (emailEl) emailEl.classList.add('email-invalid');
+      if (errEl) {
+        errEl.textContent = 'Please use your company email—we can’t accept personal inboxes (Gmail, Yahoo, Outlook, iCloud, etc.).';
+        errEl.classList.add('is-visible');
+      }
+      if (emailEl) emailEl.focus();
+      return;
+    }
+
+    btn.textContent = 'Received';
+    btn.style.opacity = '0.6';
+    btn.disabled = true;
+    if (note) note.textContent = 'Someone from the team will be in touch shortly.';
+  };
+
+  document.getElementById('email-input').addEventListener('input', clearEmailError);
+})();
 </script>
 </body>
 </html>
