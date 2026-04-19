@@ -274,6 +274,7 @@ h1 strong { font-weight: 500; }
   max-width: 420px; margin: 0 auto 2.5rem;
 }
 .email-form-full {
+  position: relative;
   display: flex; flex-direction: column;
   max-width: 420px; margin: 0 auto;
 }
@@ -287,6 +288,14 @@ h1 strong { font-weight: 500; }
 }
 .email-input:last-of-type {
   border-bottom: 1px solid rgba(237,234,226,0.15);
+}
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 .email-input::placeholder { color: rgba(237,234,226,0.3); }
 .email-input:focus { border-color: var(--accent); }
@@ -434,11 +443,13 @@ footer {
   <div class="cta-section" id="early-access">
     <h2>Shipping a migration, acquisition, or vendor cutover?</h2>
     <p>We’re taking a small number of scoping engagements with teams where the stakes are irreversible and the stack is messy across boundaries. Share your work email. We’ll reply within one business day with two or three questions about your risk surface, then schedule a short call if there’s a fit.</p>
-    <form class="email-form-full" onsubmit="handleSubmit(event)" novalidate>
-      <input type="email" class="email-input" placeholder="Work email (company domain)" required id="email-input" autocomplete="email" inputmode="email" aria-describedby="email-error">
+    <iframe name="gas-leads" id="gas-leads-frame" title="" style="display:none;width:0;height:0;border:0" aria-hidden="true"></iframe>
+    <form class="email-form-full" id="lead-form" action="#" method="post" target="gas-leads" onsubmit="handleSubmit(event)" novalidate>
+      <input type="email" name="email" class="email-input" placeholder="Work email (company domain)" required id="email-input" autocomplete="email" inputmode="email" aria-describedby="email-error">
       <p id="email-error" class="email-error-msg" role="alert"></p>
-      <input type="text" class="email-input" placeholder="Title (e.g. VP Engineering)" id="role-input">
-      <button type="submit" class="email-submit-full">Request contact →</button>
+      <input type="text" name="title" class="email-input" placeholder="Title (e.g. VP Engineering)" id="role-input" autocomplete="organization-title">
+      <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" class="email-submit-full" id="lead-submit">Request contact →</button>
       <p id="form-note" class="form-note" aria-live="polite"></p>
     </form>
 
@@ -452,6 +463,9 @@ footer {
 
 <script>
 (function () {
+  /** Paste your Apps Script Web app URL (Deploy → Web app → copy URL ending in /exec) */
+  var GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwIo7IKiJ4KOIn6HfgwsGvAVqVG6IdRKJ3vRiqYEK-1F1DKW_uL16IdjzQdT-x4T-quXg/exec';
+
   var BLOCKED = [
     'gmail.com', 'googlemail.com', 'yahoo.com', 'yahoo.co.uk', 'ymail.com',
     'outlook.com', 'hotmail.com', 'hotmail.co.uk', 'live.com', 'msn.com',
@@ -483,7 +497,8 @@ footer {
   window.handleSubmit = function (e) {
     e.preventDefault();
     var note = document.getElementById('form-note');
-    var btn = e.target.querySelector('button');
+    var form = document.getElementById('lead-form');
+    var btn = document.getElementById('lead-submit');
     var emailEl = document.getElementById('email-input');
     var errEl = document.getElementById('email-error');
     var raw = (emailEl && emailEl.value) ? emailEl.value.trim() : '';
@@ -511,10 +526,38 @@ footer {
       return;
     }
 
-    btn.textContent = 'Received';
-    btn.style.opacity = '0.6';
+    if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.indexOf('script.google.com') === -1) {
+      if (note) {
+        note.textContent = 'Form is not connected yet. Add your Apps Script web app URL in the page script (GAS_WEB_APP_URL).';
+      }
+      return;
+    }
+
+    form.action = GAS_WEB_APP_URL;
+    form.method = 'post';
+    form.target = 'gas-leads';
+    btn.textContent = 'Sending…';
+    btn.style.opacity = '0.85';
     btn.disabled = true;
-    if (note) note.textContent = 'Someone from the team will be in touch shortly.';
+    if (note) note.textContent = '';
+
+    var iframe = document.getElementById('gas-leads-frame');
+    var finished = false;
+    function finishOk() {
+      if (finished) return;
+      finished = true;
+      if (fallbackTimer) clearTimeout(fallbackTimer);
+      btn.textContent = 'Received';
+      btn.style.opacity = '0.6';
+      if (note) note.textContent = 'Someone from the team will be in touch shortly.';
+    }
+    var fallbackTimer = setTimeout(finishOk, 4500);
+    if (iframe) {
+      iframe.addEventListener('load', finishOk);
+    } else {
+      finishOk();
+    }
+    form.submit();
   };
 
   document.getElementById('email-input').addEventListener('input', clearEmailError);
