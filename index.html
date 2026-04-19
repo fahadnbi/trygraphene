@@ -447,6 +447,7 @@ footer {
     <form class="email-form-full" id="lead-form" action="#" method="post" target="gas-leads" onsubmit="handleSubmit(event)" novalidate>
       <input type="email" name="email" class="email-input" placeholder="Work email (company domain)" required id="email-input" autocomplete="email" inputmode="email" aria-describedby="email-error">
       <p id="email-error" class="email-error-msg" role="alert"></p>
+      <input type="text" name="company" class="email-input" placeholder="Company" id="company-input" autocomplete="organization">
       <input type="text" name="title" class="email-input" placeholder="Title (e.g. VP Engineering)" id="role-input" autocomplete="organization-title">
       <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="email-submit-full" id="lead-submit">Request contact →</button>
@@ -541,23 +542,19 @@ footer {
     btn.disabled = true;
     if (note) note.textContent = '';
 
-    var iframe = document.getElementById('gas-leads-frame');
+    // Iframe POST is fire-and-forget; we cannot read success/error cross-origin.
+    // A long "wait for load" felt sluggish (and 4.5s fallback was a worst-case).
+    // Short optimistic delay keeps UX snappy; the request still runs in the iframe.
     var finished = false;
     function finishOk() {
       if (finished) return;
       finished = true;
-      if (fallbackTimer) clearTimeout(fallbackTimer);
       btn.textContent = 'Received';
       btn.style.opacity = '0.6';
       if (note) note.textContent = 'Someone from the team will be in touch shortly.';
     }
-    var fallbackTimer = setTimeout(finishOk, 4500);
-    if (iframe) {
-      iframe.addEventListener('load', finishOk);
-    } else {
-      finishOk();
-    }
     form.submit();
+    setTimeout(finishOk, 380);
   };
 
   document.getElementById('email-input').addEventListener('input', clearEmailError);

@@ -1,21 +1,22 @@
 /**
- * Graphene lead form ? Google Sheet
+ * Graphene lead form -> Google Sheet
  *
- * SETUP (bound script  recommended)
+ * SETUP (bound script recommended)
  * 1. Create or open a Google Sheet. Add a tab named "Leads" (or let the script create it).
- * 2. Extensions ? Apps Script. Paste this file. Save.
- * 3. Run setupLeadsSheet once from the editor (select function ? Run). Authorize.
- * 4. Deploy ? New deployment ? Type: Web app
+ * 2. Extensions > Apps Script. Paste this file. Save.
+ * 3. Run setupLeadsSheet once from the editor (select function, Run). Authorize.
+ * 4. Deploy > New deployment > Type: Web app
  *    - Execute as: Me
  *    - Who has access: Anyone
  * 5. Copy the Web app URL (ends in /exec) into index.html as GAS_WEB_APP_URL.
  *
- * The form POSTs application/x-www-form-urlencoded fields: email, title, website (honeypot, must be empty).
+ * The form POSTs application/x-www-form-urlencoded fields: email, company, title, website (honeypot, must be empty).
+ * If you already have a Leads sheet with the old 4-column header, add a Company column after Email or adjust headers to match appendRow order.
  */
 
 var SHEET_NAME = 'Leads';
 
-/** If the web app ever sees no active spreadsheet, paste your Sheets ID from the URL here. */
+/** If the web app ever sees no active spreadsheet, paste your Sheet ID from the URL here. */
 var SPREADSHEET_ID = '';
 
 function getSpreadsheet() {
@@ -28,15 +29,15 @@ function getSpreadsheet() {
 function setupLeadsSheet() {
   var ss = getSpreadsheet();
   if (!ss) {
-    throw new Error('No spreadsheet: bind this project to a Sheet (Extensions ? Apps Script from the Sheet), or set SPREADSHEET_ID in Leads.gs');
+    throw new Error('No spreadsheet: bind this project to a Sheet (Extensions > Apps Script from the Sheet), or set SPREADSHEET_ID in Leads.gs');
   }
   var sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
   }
   if (sheet.getLastRow() === 0) {
-    sheet.appendRow(['Timestamp', 'Email', 'Title', 'Source']);
-    sheet.getRange(1, 1, 1, 4).setFontWeight('bold');
+    sheet.appendRow(['Timestamp', 'Email', 'Company', 'Title', 'Source']);
+    sheet.getRange(1, 1, 1, 5).setFontWeight('bold');
   }
 }
 
@@ -54,13 +55,14 @@ function doPost(e) {
       return ContentService.createTextOutput('ok').setMimeType(ContentService.MimeType.TEXT);
     }
     var email = String(p.email || '').trim();
+    var company = String(p.company || '').trim();
     var title = String(p.title || '').trim();
     if (!email) {
       return ContentService.createTextOutput('missing email').setMimeType(ContentService.MimeType.TEXT);
     }
     setupLeadsSheet();
     var sheet = getSpreadsheet().getSheetByName(SHEET_NAME);
-    sheet.appendRow([new Date(), email, title, 'trygraphene.dev']);
+    sheet.appendRow([new Date(), email, company, title, 'trygraphene.dev']);
     return ContentService.createTextOutput('ok').setMimeType(ContentService.MimeType.TEXT);
   } catch (err) {
     return ContentService.createTextOutput('error').setMimeType(ContentService.MimeType.TEXT);
